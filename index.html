@@ -63,7 +63,7 @@
   .section-label::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--red); }
 
   /* ---- HERO ---- */
-  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 5rem; padding-bottom: 3rem; padding-left: 3rem; padding-right: 3rem; position: relative; overflow: visible; max-width: 100vw; width: 100vw; margin-left: calc(-50vw + 50%); }
+  #hero { min-height: auto; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 8rem; padding-bottom: 6rem; padding-left: 3rem; padding-right: 3rem; position: relative; overflow: visible; max-width: 100vw; width: 100vw; margin-left: calc(-50vw + 50%); }
   .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(61,127,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(61,127,255,0.04) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
   .hero-glow { position: absolute; width: 560px; height: 560px; border-radius: 50%; background: radial-gradient(circle, rgba(61,127,255,0.08) 0%, transparent 70%); top: -100px; right: -100px; pointer-events: none; }
   .hero-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); border: 1px solid rgba(255,45,68,0.3); padding: 6px 14px; border-radius: 100px; margin-bottom: 2.5rem; width: fit-content; animation: fadeUp 0.7s ease both; margin-left: auto; margin-right: auto; }
@@ -105,15 +105,6 @@
   .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
   .btn-secondary { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-hover); color: var(--text); padding: 12px 26px; border-radius: var(--radius); font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 400; text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
-  .hero-scroll-hint { position: absolute; bottom: 2.5rem; left: 3rem; transform: none; display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); animation: fadeUp 1s 0.8s ease both; }
-  .scroll-line { width: 36px; height: 1px; background: var(--muted); position: relative; overflow: hidden; }
-  .scroll-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--accent); animation: scanline 1.8s ease-in-out infinite; }
-  @keyframes scanline { 0%{left:-100%} 100%{left:100%} }
-  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid var(--border); animation: fadeUp 0.7s 0.5s ease both; justify-content: center; }
-  .stat-item { text-align: center; }
-  .stat-num { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 4px; }
-  .stat-num span { color: var(--accent); }
-  .stat-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
   /* ---- ABOUT ---- */
@@ -246,9 +237,6 @@
     .hero-name { font-size: clamp(1.8rem, 10vw, 3.4rem); line-height: 1.15; white-space: normal; word-break: break-word; letter-spacing: 0.02em; }
     .hero-primary-role { font-size: clamp(0.85rem, 4vw, 1.2rem); }
     .hero-bio { font-size: 12px; }
-    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-    .stat-num { font-size: 1.7rem; }
-    .hero-scroll-hint { left: 1.2rem; bottom: 1.5rem; }
     #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
     .about-info { grid-template-columns: 1fr 1fr; }
     .skills-grid { grid-template-columns: 1fr; }
@@ -270,13 +258,11 @@
   @media (max-width: 480px) {
     .hero-name { font-size: clamp(1.5rem, 12vw, 2.6rem); letter-spacing: 0.01em; }
     .hero-primary-role { font-size: clamp(0.75rem, 4.5vw, 1rem); }
-    .hero-stats { flex-direction: column; align-items: center; gap: 1rem; }
     .hero-actions { flex-direction: column; align-items: center; }
     .btn-primary, .btn-secondary { width: 100%; justify-content: center; font-size: 11px; }
     .about-info { grid-template-columns: 1fr; }
     .filter-tabs { gap: 4px; }
     .filter-tab { font-size: 10px; padding: 5px 9px; }
-    .stat-num { font-size: 1.4rem; }
     section { padding: 4rem 1rem; }
     #hero { padding-left: 1rem; padding-right: 1rem; }
     .skill-bar-label { font-size: 10px; min-width: 50px; }
@@ -310,7 +296,7 @@
   <p class="hero-primary-role">IT Specialist<span class="role-sep">&amp;</span>System Administrator</p>
   <p class="hero-role">
     <span class="hero-role-label">also</span>
-    <span id="typed-text">Full-Stack Developer</span><span class="typed-cursor">|</span>
+    <span id="typed-text">Innovator</span><span class="typed-cursor">|</span>
   </p>
   <p class="hero-bio">
     I build fast, purposeful digital products — from concept to deployment.
@@ -318,26 +304,9 @@
   </p>
   <div class="hero-actions">
     <a href="#projects" class="btn-primary">View my work ↓</a>
-    <a href="#" class="btn-secondary" onclick="downloadCV(event)">⬇ Download CV</a>
+    <a href="TITAANIUMXCV.pdf" class="btn-secondary" download="TITAANIUMXCV.pdf">⬇ Download CV</a>
   </div>
-  <div class="hero-stats">
-    <div class="stat-item">
-      <div class="stat-num">5<span>+</span></div>
-      <div class="stat-label">Years exp.</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">30<span>+</span></div>
-      <div class="stat-label">Projects shipped</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">12<span>+</span></div>
-      <div class="stat-label">Happy clients</div>
-    </div>
-  </div>
-  <div class="hero-scroll-hint">
-    <div class="scroll-line"></div>
-    Scroll to explore
-  </div>
+
 </section>
 
 <!-- ABOUT -->
@@ -347,13 +316,13 @@
     <div class="about-text">
       <h2>Crafting digital experiences that resonate.</h2>
       <p>I'm an IT Specialist &amp; System Administrator with 5+ years managing infrastructure, networks, and enterprise systems. I obsess over reliability, security, and systems that scale without breaking a sweat.</p>
-      <p>When I'm not keeping servers alive, you'll find me automating workflows, contributing to open-source tooling, or exploring the latest in cloud architecture.</p>
+      <p>When I'm not keeping servers alive and performing at it's Full Capabilities, you'll find me automating workflows , analyzing data , exploring and studying the latest technologies, or working on a new projects while making sure everything i'm responsible for is going well.</p>
     </div>
     <div>
       <div class="about-info">
         <div class="info-item">
           <div class="info-label">Based in</div>
-          <div class="info-val">New York, USA</div>
+          <div class="info-val">Cairo, Egypt</div>
         </div>
         <div class="info-item">
           <div class="info-label">Availability</div>
@@ -365,7 +334,7 @@
         </div>
         <div class="info-item">
           <div class="info-label">Education</div>
-          <div class="info-val">B.Sc Computer Science</div>
+          <div class="info-val">Bachelor of Commerce , Foreign Trade</div>
         </div>
         <div class="info-item">
           <div class="info-label">Freelance</div>
@@ -373,7 +342,7 @@
         </div>
         <div class="info-item">
           <div class="info-label">Languages</div>
-          <div class="info-val">English, Spanish</div>
+          <div class="info-val">English, Arabic</div>
         </div>
       </div>
     </div>
@@ -386,9 +355,9 @@
   <div class="skills-grid reveal">
     <div class="skill-card">
       <div class="skill-icon">⚡</div>
-      <div class="skill-title">Frontend Development</div>
+      <div class="skill-title">Web Development</div>
       <div class="skill-bar-row"><span class="skill-bar-label">React</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="92%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">TypeScript</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88%"></div></div></div>
+      <div class="skill-bar-row"><span class="skill-bar-label">Python</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="100%"></div></div></div>
       <div class="skill-bar-row"><span class="skill-bar-label">Next.js</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85%"></div></div></div>
       <div class="skill-tags"><span class="tag">React</span><span class="tag">Vue</span><span class="tag">TypeScript</span><span class="tag">CSS</span></div>
     </div>
@@ -659,7 +628,7 @@ function filterProjects(type, btn) {
 }
 
 /* ----- DOWNLOAD CV ----- */
-function downloadCV(e) { e.preventDefault(); alert('Link this to your CV PDF!'); }
+function downloadCV(e) { /* CV download handled by href */ }
 
 /* ----- NAV SHRINK ----- */
 window.addEventListener('scroll', () => {
