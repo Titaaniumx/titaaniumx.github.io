@@ -131,6 +131,16 @@
   .skill-bar-label { font-size: 12px; color: var(--muted); min-width: 60px; }
   .skill-bar-track { flex: 1; height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
   .skill-bar-fill { height: 100%; background: var(--accent); border-radius: 99px; width: 0%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+  /* Expanded sysadmin card */
+  .skill-card-wide { grid-column: 1 / -1; }
+  .sysadmin-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem 2rem; margin-top: 1rem; }
+  .sysadmin-item { display: flex; flex-direction: column; gap: 3px; padding: 0.7rem 0; border-bottom: 1px solid var(--border); }
+  .sysadmin-item:last-child, .sysadmin-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+  .sysadmin-item-title { font-size: 12px; font-weight: 700; color: var(--text); letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+  .sysadmin-item-title::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .sysadmin-item-desc { font-size: 11px; color: var(--muted); line-height: 1.6; padding-left: 14px; }
+  .sysadmin-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; padding-left: 14px; }
+  .sysadmin-tag { font-size: 10px; background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(61,127,255,0.2); border-radius: 3px; padding: 2px 7px; letter-spacing: 0.05em; font-family: 'Orbitron', sans-serif; }
 
   /* ---- PROJECTS ---- */
   #projects { padding-top: 5rem; }
@@ -154,10 +164,100 @@
   .project-title { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; letter-spacing: -0.01em; }
   .project-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
   .project-stack { display: flex; gap: 6px; flex-wrap: wrap; }
-  .project-links { display: flex; gap: 10px; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-  .proj-link { font-size: 12px; letter-spacing: 0.06em; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
-  .proj-link:hover { color: var(--accent); }
-  .proj-link svg { width: 13px; height: 13px; }
+
+  /* ---- PROJECT SCREENSHOT POPUP ---- */
+  .project-card { position: relative; }
+  .screenshot-popup {
+    position: fixed;
+    z-index: 9999;
+    background: #0a0a0f;
+    border: 1px solid rgba(61,127,255,0.3);
+    border-radius: 12px;
+    padding: 1rem;
+    width: 340px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(61,127,255,0.1);
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .screenshot-popup.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  .popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .popup-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .popup-counter {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .popup-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface2);
+    margin-bottom: 0.75rem;
+  }
+  .popup-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.25s ease;
+  }
+  .popup-img-wrap .popup-img-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .popup-img-placeholder span { font-size: 2rem; }
+  .popup-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+  .popup-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .popup-dot.active {
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+  .popup-caption {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 0.6rem;
+    min-height: 1.2em;
+  }
 
   /* ---- EXPERIENCE ---- */
   #experience { padding-top: 5rem; }
@@ -240,6 +340,7 @@
     #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
     .about-info { grid-template-columns: 1fr 1fr; }
     .skills-grid { grid-template-columns: 1fr; }
+    .sysadmin-grid { grid-template-columns: 1fr; }
     .projects-grid { grid-template-columns: 1fr; }
     .projects-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .project-card.featured { flex-direction: column; grid-column: span 1; }
@@ -266,6 +367,8 @@
     section { padding: 4rem 1rem; }
     #hero { padding-left: 1rem; padding-right: 1rem; }
     .skill-bar-label { font-size: 10px; min-width: 50px; }
+    .sysadmin-item-desc { font-size: 10px; }
+    .sysadmin-tag { font-size: 9px; }
     .tag { font-size: 10px; padding: 2px 8px; }
   }
 </style>
@@ -316,7 +419,7 @@
     <div class="about-text">
       <h2>Crafting digital experiences that resonate.</h2>
       <p>I'm an IT Specialist &amp; System Administrator with 5+ years managing infrastructure, networks, and enterprise systems. I obsess over reliability, security, and systems that scale without breaking a sweat.</p>
-      <p>When I'm not keeping servers alive and performing at it's Full Capabilities, you'll find me automating workflows , analyzing data , exploring and studying the latest technologies, or working on a new projects while making sure everything i'm responsible for is going well.</p>
+      <p>When I'm not keeping servers alive and performing at their Full Capabilities, you'll find me automating workflows , analyzing data , exploring and studying the latest technologies, or working on a new projects while making sure everything i'm responsible for is going well.</p>
     </div>
     <div>
       <div class="about-info">
@@ -357,49 +460,156 @@
       <div class="skill-icon">⚡</div>
       <div class="skill-title">Web Development</div>
       <div class="skill-bar-row"><span class="skill-bar-label">React</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="92%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">Python</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="100%"></div></div></div>
       <div class="skill-bar-row"><span class="skill-bar-label">Next.js</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85%"></div></div></div>
-      <div class="skill-tags"><span class="tag">React</span><span class="tag">Vue</span><span class="tag">TypeScript</span><span class="tag">CSS</span></div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">🛠</div>
-      <div class="skill-title">Backend & APIs</div>
       <div class="skill-bar-row"><span class="skill-bar-label">Node.js</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="90%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">Python</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80%"></div></div></div>
+      <div class="skill-bar-row"><span class="skill-bar-label">Python</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="100%"></div></div></div>
       <div class="skill-bar-row"><span class="skill-bar-label">GraphQL</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="75%"></div></div></div>
-      <div class="skill-tags"><span class="tag">Node.js</span><span class="tag">Python</span><span class="tag">REST</span><span class="tag">GraphQL</span></div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">☁️</div>
-      <div class="skill-title">Cloud & DevOps</div>
-      <div class="skill-bar-row"><span class="skill-bar-label">AWS</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="82%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">Docker</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="78%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">CI/CD</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85%"></div></div></div>
-      <div class="skill-tags"><span class="tag">AWS</span><span class="tag">Docker</span><span class="tag">K8s</span><span class="tag">GitHub Actions</span></div>
+      <div class="skill-tags"><span class="tag">React</span><span class="tag">Vue</span><span class="tag">TypeScript</span><span class="tag">CSS</span><span class="tag">Node.js</span><span class="tag">REST</span><span class="tag">GraphQL</span><span class="tag">Python</span></div>
     </div>
     <div class="skill-card">
       <div class="skill-icon">🗄</div>
       <div class="skill-title">Databases</div>
       <div class="skill-bar-row"><span class="skill-bar-label">PostgreSQL</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">MongoDB</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">Redis</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="72%"></div></div></div>
-      <div class="skill-tags"><span class="tag">PostgreSQL</span><span class="tag">MongoDB</span><span class="tag">Redis</span></div>
+      <div class="skill-bar-row"><span class="skill-bar-label">SQLlite</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="98%"></div></div></div>
+      <div class="skill-bar-row"><span class="skill-bar-label">Oracle</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80%"></div></div></div>
+      <div class="skill-tags"><span class="tag">PostgreSQL</span><span class="tag">SQLlite</span><span class="tag">Oracle</span></div>
     </div>
-    <div class="skill-card">
-      <div class="skill-icon">🎨</div>
-      <div class="skill-title">Design & UX</div>
-      <div class="skill-bar-row"><span class="skill-bar-label">Figma</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="75%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">Framer</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="65%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">Motion</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="70%"></div></div></div>
-      <div class="skill-tags"><span class="tag">Figma</span><span class="tag">Design Systems</span><span class="tag">Accessibility</span></div>
-    </div>
+
     <div class="skill-card">
       <div class="skill-icon">🤖</div>
       <div class="skill-title">AI & ML</div>
       <div class="skill-bar-row"><span class="skill-bar-label">LLM APIs</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="78%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">PyTorch</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="62%"></div></div></div>
-      <div class="skill-bar-row"><span class="skill-bar-label">RAG</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="70%"></div></div></div>
-      <div class="skill-tags"><span class="tag">OpenAI</span><span class="tag">LangChain</span><span class="tag">Embeddings</span></div>
+      <div class="skill-bar-row"><span class="skill-bar-label">Prediction Models</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85%"></div></div></div>
+      <div class="skill-bar-row"><span class="skill-bar-label">Prompt Engineering</span><div class="skill-bar-track"><div class="skill-bar-fill" data-width="95%"></div></div></div>
+      <div class="skill-tags"><span class="tag">OpenAI</span><span class="tag">Embeddings</span></div>
+    </div>
+    <div class="skill-card skill-card-wide">
+      <div class="skill-icon">🖥️</div>
+      <div class="skill-title">System Administration</div>
+      <div class="sysadmin-grid">
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Infrastructure &amp; Architecture</div>
+          <div class="sysadmin-item-desc">Designing and managing servers, networks, and cloud environments</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">AWS</span><span class="sysadmin-tag">Azure</span><span class="sysadmin-tag">GCP</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Automation &amp; Scripting</div>
+          <div class="sysadmin-item-desc">Bash/Python scripts, cron jobs, configuration management</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Ansible</span><span class="sysadmin-tag">Puppet</span><span class="sysadmin-tag">Chef</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Security &amp; Hardening</div>
+          <div class="sysadmin-item-desc">Firewalls, access controls, patch management, vulnerability scanning</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">SOC2</span><span class="sysadmin-tag">ISO 27001</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Monitoring &amp; Observability</div>
+          <div class="sysadmin-item-desc">Setting up alerting, logging pipelines, and dashboards</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Grafana</span><span class="sysadmin-tag">Prometheus</span><span class="sysadmin-tag">Datadog</span><span class="sysadmin-tag">ELK</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Backup &amp; Disaster Recovery</div>
+          <div class="sysadmin-item-desc">Backup strategies, RTO/RPO planning, failover testing</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">RTO/RPO</span><span class="sysadmin-tag">Failover</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Virtualization &amp; Containers</div>
+          <div class="sysadmin-item-desc">Hypervisor management, container orchestration at scale</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">VMware</span><span class="sysadmin-tag">Hyper-V</span><span class="sysadmin-tag">Docker</span><span class="sysadmin-tag">Kubernetes</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Identity &amp; Access Management</div>
+          <div class="sysadmin-item-desc">Directory services, single sign-on, role-based access control</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Active Directory</span><span class="sysadmin-tag">LDAP</span><span class="sysadmin-tag">SSO</span><span class="sysadmin-tag">MFA</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Performance Tuning</div>
+          <div class="sysadmin-item-desc">Optimizing CPU, memory, disk I/O, and network throughput</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">CPU</span><span class="sysadmin-tag">Memory</span><span class="sysadmin-tag">I/O</span><span class="sysadmin-tag">Networking</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">CI/CD &amp; DevOps</div>
+          <div class="sysadmin-item-desc">Pipeline setup, infrastructure as code, automated deployments</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Terraform</span><span class="sysadmin-tag">CloudFormation</span><span class="sysadmin-tag">GitHub Actions</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Incident Response</div>
+          <div class="sysadmin-item-desc">On-call rotations, postmortems, runbooks, SLA management</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">On-Call</span><span class="sysadmin-tag">Postmortems</span><span class="sysadmin-tag">SLA</span></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="skill-card skill-card-wide">
+      <div class="skill-icon">🧰</div>
+      <div class="skill-title">Tools & Technologies</div>
+      <div class="sysadmin-grid">
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Operating Systems</div>
+          <div class="sysadmin-item-desc">Windows Server 2016/2019/2022, Windows XP through 11, macOS, Linux</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Windows Server</span><span class="sysadmin-tag">Windows 11</span><span class="sysadmin-tag">macOS</span><span class="sysadmin-tag">Linux</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Programming Languages</div>
+          <div class="sysadmin-item-desc">Scripting and automation across multiple platforms</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Python</span><span class="sysadmin-tag">PowerShell</span><span class="sysadmin-tag">CMD</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Network Hardware</div>
+          <div class="sysadmin-item-desc">Physical and wireless network infrastructure deployment and management</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Routers</span><span class="sysadmin-tag">Switches</span><span class="sysadmin-tag">Access Points</span><span class="sysadmin-tag">Cabling</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Hardware</div>
+          <div class="sysadmin-item-desc">Servers, workstations, client PCs, printers, and enterprise storage systems</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Servers</span><span class="sysadmin-tag">NAS</span><span class="sysadmin-tag">SAN</span><span class="sysadmin-tag">RAID</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Data Analysis</div>
+          <div class="sysadmin-item-desc">Business intelligence, reporting, visualization, and predictive modeling</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Power BI</span><span class="sysadmin-tag">Excel</span><span class="sysadmin-tag">Data Visualization</span><span class="sysadmin-tag">Predictive Modeling</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Security</div>
+          <div class="sysadmin-item-desc">Data recovery, backup systems, endpoint protection, and surveillance</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Data Recovery</span><span class="sysadmin-tag">Backup</span><span class="sysadmin-tag">Endpoint</span><span class="sysadmin-tag">Anti-Malware</span><span class="sysadmin-tag">Surveillance</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Remote Support</div>
+          <div class="sysadmin-item-desc">Remote access and support tools for client and infrastructure management</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">AnyDesk</span><span class="sysadmin-tag">TeamViewer</span><span class="sysadmin-tag">RDP</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Virtualization</div>
+          <div class="sysadmin-item-desc">Desktop and server virtualization platforms</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">VMware Workstation</span><span class="sysadmin-tag">Hyper-V</span><span class="sysadmin-tag">VirtualBox</span></div>
+        </div>
+
+        <div class="sysadmin-item">
+          <div class="sysadmin-item-title">Microsoft Office Suite</div>
+          <div class="sysadmin-item-desc">Full suite proficiency including database and productivity tools</div>
+          <div class="sysadmin-tags"><span class="sysadmin-tag">Word</span><span class="sysadmin-tag">Excel</span><span class="sysadmin-tag">PowerPoint</span><span class="sysadmin-tag">Outlook</span><span class="sysadmin-tag">Access</span></div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -411,13 +621,21 @@
     <h2>Projects that<br>I'm proud of.</h2>
     <div class="filter-tabs">
       <button class="filter-tab active" onclick="filterProjects('all',this)">All</button>
-      <button class="filter-tab" onclick="filterProjects('web',this)">Web App</button>
-      <button class="filter-tab" onclick="filterProjects('mobile',this)">Mobile</button>
+      <button class="filter-tab" onclick="filterProjects('webapp',this)">Web App</button>
+      <button class="filter-tab" onclick="filterProjects('website',this)">Websites</button>
       <button class="filter-tab" onclick="filterProjects('ai',this)">AI</button>
+      <button class="filter-tab" onclick="filterProjects('dashboard',this)">Dashboards</button>
     </div>
   </div>
   <div class="projects-grid" id="projectsGrid">
-    <div class="project-card featured reveal" data-type="web">
+    <div class="project-card featured reveal" data-type="webapp"
+      data-popup-title="Nexus Commerce Platform"
+      data-screenshots='[
+        {"src":"screenshots/nexus-1.jpg","caption":"Homepage — storefront & hero"},
+        {"src":"screenshots/nexus-2.jpg","caption":"Product listing with filters"},
+        {"src":"screenshots/nexus-3.jpg","caption":"Checkout and Stripe integration"},
+        {"src":"screenshots/nexus-4.jpg","caption":"Admin dashboard analytics"}
+      ]'>
       <div class="project-thumb">
         <div class="project-thumb-pattern"></div>
         <div class="project-thumb-icon">🛒</div>
@@ -427,40 +645,52 @@
         <div class="project-title">Nexus Commerce Platform</div>
         <div class="project-desc">A headless e-commerce engine powering $2M+ monthly transactions. Built with Next.js, Stripe, and a custom inventory microservice. Achieved 98/100 Lighthouse score and sub-200ms TTFB.</div>
         <div class="project-stack"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">AWS</span><span class="tag">Stripe</span></div>
-        <div class="project-links">
-          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live demo</a>
-          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
-        </div>
+
       </div>
     </div>
-    <div class="project-card reveal" data-type="ai">
+    <div class="project-card reveal" data-type="ai"
+      data-popup-title="DocuMind AI"
+      data-screenshots='[
+        {"src":"screenshots/documind-1.jpg","caption":"Document upload interface"},
+        {"src":"screenshots/documind-2.jpg","caption":"AI Q and A with citation highlights"},
+        {"src":"screenshots/documind-3.jpg","caption":"Export & summary view"}
+      ]'>
       <div class="project-thumb"><div class="project-thumb-pattern"></div><div class="project-thumb-icon">🤖</div></div>
       <div class="project-body">
-        <div class="project-meta"><span class="project-type">AI Tool</span><span class="project-year">2024</span></div>
+        <div class="project-meta"><span class="project-type">AI</span><span class="project-year">2024</span></div>
         <div class="project-title">DocuMind AI</div>
         <div class="project-desc">RAG-powered document Q&amp;A with citation tracking. Processes 100-page PDFs in under 3s. Used by 2,000+ researchers.</div>
         <div class="project-stack"><span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">Pinecone</span></div>
-        <div class="project-links"><a href="#" class="proj-link">Live demo →</a><a href="#" class="proj-link">GitHub →</a></div>
       </div>
     </div>
-    <div class="project-card reveal" data-type="mobile">
+    <div class="project-card reveal" data-type="website"
+      data-popup-title="Pulse — Health Tracker"
+      data-screenshots='[
+        {"src":"screenshots/pulse-1.jpg","caption":"Dashboard — daily overview"},
+        {"src":"screenshots/pulse-2.jpg","caption":"Activity & heart rate charts"},
+        {"src":"screenshots/pulse-3.jpg","caption":"Wearable sync settings"}
+      ]'>
       <div class="project-thumb"><div class="project-thumb-pattern"></div><div class="project-thumb-icon">📱</div></div>
       <div class="project-body">
-        <div class="project-meta"><span class="project-type">Mobile App</span><span class="project-year">2023</span></div>
+        <div class="project-meta"><span class="project-type">Website</span><span class="project-year">2023</span></div>
         <div class="project-title">Pulse — Health Tracker</div>
         <div class="project-desc">Cross-platform health tracking app with wearable integrations. 15k+ downloads, 4.8★ on App Store.</div>
         <div class="project-stack"><span class="tag">React Native</span><span class="tag">Node.js</span><span class="tag">HealthKit</span></div>
-        <div class="project-links"><a href="#" class="proj-link">App Store →</a><a href="#" class="proj-link">GitHub →</a></div>
       </div>
     </div>
-    <div class="project-card reveal" data-type="web">
+    <div class="project-card reveal" data-type="dashboard"
+      data-popup-title="FinFlow Dashboard"
+      data-screenshots='[
+        {"src":"screenshots/finflow-1.jpg","caption":"Real-time transactions feed"},
+        {"src":"screenshots/finflow-2.jpg","caption":"Revenue charts and KPIs"},
+        {"src":"screenshots/finflow-3.jpg","caption":"Alerts & threshold config"}
+      ]'>
       <div class="project-thumb"><div class="project-thumb-pattern"></div><div class="project-thumb-icon">📊</div></div>
       <div class="project-body">
-        <div class="project-meta"><span class="project-type">Web App</span><span class="project-year">2023</span></div>
+        <div class="project-meta"><span class="project-type">Dashboard</span><span class="project-year">2023</span></div>
         <div class="project-title">FinFlow Dashboard</div>
         <div class="project-desc">Real-time financial analytics dashboard processing 500k+ daily transactions with live charts and alerts.</div>
         <div class="project-stack"><span class="tag">React</span><span class="tag">D3.js</span><span class="tag">WebSockets</span></div>
-        <div class="project-links"><a href="#" class="proj-link">Case study →</a><a href="#" class="proj-link">GitHub →</a></div>
       </div>
     </div>
   </div>
@@ -474,46 +704,72 @@
     <div class="timeline-item" id="tl1">
       <div class="timeline-dot"></div>
       <div class="timeline-left">
-        <div class="timeline-period">2022 — Present</div>
-        <div class="timeline-company">Anthropic-style Startup</div>
+        <div class="timeline-period">Feb 2025 — Present</div>
+        <div class="timeline-company">COPADPHARMA — Cairo, Egypt</div>
       </div>
       <div class="timeline-right">
-        <div class="timeline-role">Senior Full-Stack Engineer</div>
-        <div class="timeline-desc">Led a team of 4 engineers building core platform features used by 50k+ users. Owned the frontend architecture and API design.</div>
+        <div class="timeline-role">IT Support Specialist / System Administrator</div>
         <ul class="timeline-achievements">
-          <li>Reduced page load time by 62% through bundle optimization and edge caching</li>
-          <li>Architected a real-time notification system handling 1M+ events/day</li>
-          <li>Mentored 3 junior engineers; established code review standards</li>
+          <li>Managed Windows Server 2022 environment including Active Directory and DNS records administration</li>
+          <li>Successfully recovered from ransomware attack and implemented enhanced security protocols, preventing future threats</li>
+          <li>Optimized ERP system workflow, reducing processing time by 25% and improving employee productivity</li>
+          <li>Configured, maintained and upgraded network infrastructure including routers, switches, and access points</li>
+          <li>Provided technical support for Windows, macOS, and Linux systems with 95% first-call resolution rate</li>
+          <li>Implemented backup and disaster recovery solutions, ensuring 99.9% data availability</li>
+          <li>Recovered corrupted PST files and restored critical email communications for executive team</li>
+          <li>Performed system upgrades and performance tuning, improving overall IT stability by 50%</li>
+          <li>Managed Group Policy Objects (GPO) deployment across organizational units</li>
+          <li>Restored deleted employee data using advanced recovery techniques, saving 100+ hours of work</li>
+          <li>Securing, configuring, and diagnosing surveillance systems and attendance systems</li>
         </ul>
       </div>
     </div>
     <div class="timeline-item" id="tl2">
       <div class="timeline-dot"></div>
       <div class="timeline-left">
-        <div class="timeline-period">2020 — 2022</div>
-        <div class="timeline-company">Digital Agency</div>
+        <div class="timeline-period">Nov 2024 — Feb 2025</div>
+        <div class="timeline-company">Safeco Tech For Network Solutions — Cairo, Egypt</div>
       </div>
       <div class="timeline-right">
-        <div class="timeline-role">Frontend Developer</div>
-        <div class="timeline-desc">Built high-traffic marketing sites and SaaS dashboards for enterprise clients in fintech and healthcare.</div>
+        <div class="timeline-role">IT Help Desk Intern</div>
         <ul class="timeline-achievements">
-          <li>Delivered 14 client projects on time with 100% satisfaction rate</li>
-          <li>Built a reusable component library adopted by 6 teams</li>
+          <li>Diagnosed and resolved network connectivity issues for enterprise clients</li>
+          <li>Configured network devices including access points, routers, and switches</li>
+          <li>Provided Level 1 and Level 2 technical support for software and hardware issues</li>
+          <li>Assisted in system administration tasks across multiple operating systems</li>
         </ul>
       </div>
     </div>
     <div class="timeline-item" id="tl3">
       <div class="timeline-dot"></div>
       <div class="timeline-left">
-        <div class="timeline-period">2019 — 2020</div>
-        <div class="timeline-company">Self-employed</div>
+        <div class="timeline-period">Jul 2024 — Present</div>
+        <div class="timeline-company">Self-Employed — Upwork</div>
       </div>
       <div class="timeline-right">
-        <div class="timeline-role">Freelance Developer</div>
-        <div class="timeline-desc">Built web applications and e-commerce stores for small businesses across Europe and North America.</div>
+        <div class="timeline-role">Freelance Technical Support & Data Analyst</div>
         <ul class="timeline-achievements">
-          <li>Worked with 20+ clients across 8 countries</li>
-          <li>Specialised in Shopify customizations and headless builds</li>
+          <li>Deliver remote technical support services with 90% client satisfaction rate</li>
+          <li>Develop Python-based predictive models for business forecasting, improving accuracy by 30%</li>
+          <li>Create interactive dashboards and reports using Power BI and Excel</li>
+          <li>Provide data analysis and visualization services for entry-level businesses</li>
+          <li>Conducted system performance analysis and optimization recommendations</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item" id="tl4">
+      <div class="timeline-dot"></div>
+      <div class="timeline-left">
+        <div class="timeline-period">Feb 2021 — Jun 2021</div>
+        <div class="timeline-company">ELSHEHABY For Mercedes Spare Parts — Cairo, Egypt</div>
+      </div>
+      <div class="timeline-right">
+        <div class="timeline-role">Technical Support Specialist</div>
+        <ul class="timeline-achievements">
+          <li>Resolved technical issues for inventory management systems and employee PCs, reducing downtime by 20%</li>
+          <li>Trained 15+ employees on Microsoft Access database usage for stock tracking</li>
+          <li>Improved inventory tracking efficiency by 75% through system optimization</li>
+          <li>Provided ongoing technical support and troubleshooting for daily operations</li>
         </ul>
       </div>
     </div>
@@ -597,7 +853,7 @@ const observer = new IntersectionObserver(entries => {
 revealEls.forEach(el => observer.observe(el));
 
 /* ----- TIMELINE REVEAL ----- */
-['tl1','tl2','tl3'].forEach((id, i) => {
+['tl1','tl2','tl3','tl4'].forEach((id, i) => {
   const el = document.getElementById(id);
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 150); obs.unobserve(e.target); } });
@@ -635,6 +891,109 @@ window.addEventListener('scroll', () => {
   document.getElementById('mainNav').style.padding = window.scrollY > 60 ? '0.8rem 3rem' : '1.2rem 3rem';
 });
 
+/* ----- PROJECT SCREENSHOT POPUP ----- */
+document.addEventListener('DOMContentLoaded', function() {
+  const popup    = document.getElementById('screenshotPopup');
+  const popImg   = document.getElementById('popupImg');
+  const popPH    = document.getElementById('popupPlaceholder');
+  const popTitle = document.getElementById('popupTitle');
+  const popDots  = document.getElementById('popupDots');
+  const popCap   = document.getElementById('popupCaption');
+  const popCount = document.getElementById('popupCounter');
+
+  let shots = [], current = 0, cycleTimer = null, posTimer = null;
+  let mouseX = 0, mouseY = 0, activeCard = null;
+
+  function showShot(i) {
+    current = i;
+    const s = shots[i];
+    popImg.style.display = 'block';
+    popPH.style.display  = 'none';
+    popImg.onload = null;
+    popImg.onerror = function() {
+      this.style.display = 'none';
+      popPH.style.display = 'flex';
+    };
+    popImg.src = s.src;
+    popCap.textContent   = s.caption || '';
+    popCount.textContent = (i + 1) + ' / ' + shots.length;
+    document.querySelectorAll('.popup-dot').forEach((d, di) =>
+      d.classList.toggle('active', di === i)
+    );
+  }
+
+  function buildDots() {
+    popDots.innerHTML = shots.map((_, i) =>
+      '<div class="popup-dot' + (i === 0 ? ' active' : '') + '"></div>'
+    ).join('');
+  }
+
+  function positionPopup() {
+    popup.style.left = '';
+    popup.style.top  = '';
+    const W = window.innerWidth, H = window.innerHeight;
+    const pw = popup.offsetWidth + 28, ph = popup.offsetHeight + 28;
+    let x = mouseX + 24, y = mouseY - 20;
+    if (x + pw > W) x = mouseX - pw + 4;
+    if (y + ph > H) y = H - ph - 8;
+    if (y < 8) y = 8;
+    if (x < 8) x = 8;
+    popup.style.left = x + 'px';
+    popup.style.top  = y + 'px';
+  }
+
+  function startCycle() {
+    clearInterval(cycleTimer);
+    cycleTimer = setInterval(function() {
+      showShot((current + 1) % shots.length);
+    }, 1800);
+  }
+
+  function stopCycle() {
+    clearInterval(cycleTimer);
+    cycleTimer = null;
+  }
+
+  // Use event delegation on document to catch all project cards reliably
+  document.addEventListener('mouseover', function(e) {
+    const card = e.target.closest('.project-card[data-screenshots]');
+    if (!card || card === activeCard) return;
+    activeCard = card;
+
+    try { shots = JSON.parse(card.dataset.screenshots); } catch(err) { shots = []; }
+    if (!shots.length) return;
+
+    current = 0;
+    popTitle.textContent = card.dataset.popupTitle || '';
+    popImg.src = '';
+    popPH.style.display = 'none';
+    buildDots();
+    showShot(0);
+    startCycle();
+    popup.classList.add('visible');
+    positionPopup();
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (activeCard) {
+      clearTimeout(posTimer);
+      posTimer = setTimeout(positionPopup, 8);
+    }
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    const card = e.target.closest('.project-card[data-screenshots]');
+    if (!card) return;
+    const to = e.relatedTarget;
+    if (to && card.contains(to)) return;
+    activeCard = null;
+    popup.classList.remove('visible');
+    stopCycle();
+  });
+});
+
 /* ----- TEXTURE CURSOR PARALLAX ----- */
 const nameSpans = document.querySelectorAll('.hero-name .name-first, .hero-name .name-last');
 let curX = 50, curY = 50;
@@ -655,5 +1014,21 @@ document.addEventListener('mousemove', e => {
   }
 }, { passive: true });
 </script>
+<!-- SCREENSHOT POPUP -->
+<div class="screenshot-popup" id="screenshotPopup">
+  <div class="popup-header">
+    <div class="popup-title" id="popupTitle"></div>
+    <div class="popup-counter" id="popupCounter"></div>
+  </div>
+  <div class="popup-img-wrap">
+    <img id="popupImg" src="" alt="" onerror="this.style.display='none';document.getElementById('popupPlaceholder').style.display='flex'">
+    <div class="popup-img-placeholder" id="popupPlaceholder">
+      <span>🖼</span>Add screenshot here
+    </div>
+  </div>
+  <div class="popup-dots" id="popupDots"></div>
+  <div class="popup-caption" id="popupCaption"></div>
+</div>
+
 </body>
 </html>
